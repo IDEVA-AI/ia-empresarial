@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel do Cliente | Nexo AI</title>
+    <meta
+      name="description"
+      content="Painel de tutoriais de inteligencia artificial para times comerciais."
+    />
+    <style>
+      :root {
+        --petroleo-950: #071f22;
+        --petroleo-900: #0a2c31;
+        --petroleo-800: #0f3c42;
+        --petroleo-700: #15525a;
+        --champanhe-500: #f0cf7a;
+        --champanhe-400: #f7dfa3;
+        --champanhe-200: #fff2cf;
+        --marfim: #f7f3e8;
+        --papel: #fbf8ef;
+        --tinta: #173135;
+        --coral: #bf5b44;
+        --linha: rgba(10, 44, 49, 0.16);
+        --shadow: 0 24px 70px rgba(7, 31, 34, 0.16);
+        --radius: 8px;
+        --step--1: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem);
+        --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+        --step-1: clamp(1.18rem, 1.08rem + 0.5vw, 1.5rem);
+        --step-2: clamp(1.45rem, 1.22rem + 1.15vw, 2.1rem);
+        --step-3: clamp(2rem, 1.45rem + 2.7vw, 3.55rem);
+        --space-1: clamp(0.75rem, 0.64rem + 0.54vw, 1.06rem);
+        --space-2: clamp(1.1rem, 0.92rem + 0.9vw, 1.62rem);
+        --space-3: clamp(1.7rem, 1.32rem + 1.9vw, 2.8rem);
+        --space-4: clamp(2.4rem, 1.8rem + 3vw, 4.1rem);
+        --space-5: clamp(4rem, 2.85rem + 5.7vw, 7.2rem);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          linear-gradient(180deg, rgba(247, 243, 232, 0.98), rgba(247, 243, 232, 0.98)),
+          radial-gradient(circle at 88% 12%, rgba(240, 207, 122, 0.32), transparent 26%),
+          var(--marfim);
+        color: var(--tinta);
+        font-family: Avenir Next, Segoe UI, Helvetica Neue, sans-serif;
+        line-height: 1.5;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.12;
+        background-image:
+          linear-gradient(rgba(10, 44, 49, 0.5) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(10, 44, 49, 0.5) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: linear-gradient(180deg, black, transparent 88%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      .wrap {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid var(--linha);
+        background: color-mix(in srgb, var(--marfim) 90%, transparent);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+      }
+
+      .mark {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        background: var(--petroleo-900);
+        color: var(--champanhe-500);
+        border: 1px solid rgba(240, 207, 122, 0.44);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: color-mix(in srgb, var(--petroleo-900) 78%, white);
+        font-size: var(--step--1);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(10, 44, 49, 0.18);
+        font-weight: 800;
+      }
+
+      .pill.dark {
+        background: var(--petroleo-900);
+        color: var(--champanhe-200);
+        border-color: transparent;
+      }
+
+      .gate {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background:
+          linear-gradient(115deg, rgba(7, 31, 34, 0.97), rgba(10, 44, 49, 0.91)),
+          url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=82");
+        background-size: cover;
+        background-position: center;
+        color: var(--marfim);
+      }
+
+      .gate[hidden] {
+        display: none;
+      }
+
+      .gate-card {
+        width: min(520px, 100%);
+        padding: clamp(26px, 4vw, 42px);
+        background: rgba(247, 243, 232, 0.96);
+        color: var(--petroleo-900);
+        border: 1px solid rgba(255, 242, 207, 0.5);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: var(--space-1);
+        color: var(--coral);
+        font-size: var(--step--1);
+        font-weight: 820;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 42px;
+        height: 1px;
+        background: currentColor;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1,
+      h2 {
+        font-family: Georgia, Times New Roman, serif;
+        font-weight: 560;
+        line-height: 1.04;
+      }
+
+      h1 {
+        font-size: var(--step-3);
+      }
+
+      h2 {
+        color: var(--petroleo-900);
+        font-size: var(--step-2);
+      }
+
+      h3 {
+        color: var(--petroleo-900);
+        font-size: var(--step-1);
+        line-height: 1.16;
+      }
+
+      .gate-card p {
+        margin-top: 14px;
+        color: color-mix(in srgb, var(--petroleo-900) 72%, white);
+      }
+
+      .gate-form {
+        margin-top: 24px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .gate-form label {
+        color: color-mix(in srgb, var(--petroleo-900) 74%, white);
+        font-size: var(--step--1);
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .gate-form input {
+        width: 100%;
+        min-height: 50px;
+        padding: 0 14px;
+        border: 1px solid rgba(10, 44, 49, 0.2);
+        border-radius: 4px;
+        background: var(--papel);
+        color: var(--petroleo-900);
+      }
+
+      .gate-form input:focus {
+        outline: 3px solid rgba(240, 207, 122, 0.55);
+        border-color: var(--petroleo-800);
+      }
+
+      .gate-form button,
+      .copy-btn,
+      .done-btn {
+        min-height: 44px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--petroleo-900);
+        color: var(--champanhe-200);
+        font-weight: 840;
+        cursor: pointer;
+      }
+
+      .error {
+        min-height: 22px;
+        color: var(--coral);
+        font-size: var(--step--1);
+        font-weight: 800;
+      }
+
+      .hero {
+        padding: var(--space-5) 0 var(--space-4);
+        background: var(--petroleo-900);
+        color: var(--marfim);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.46fr);
+        gap: var(--space-4);
+        align-items: end;
+      }
+
+      .hero h1 {
+        max-width: 13ch;
+        font-size: clamp(2.6rem, 6.5vw, 6.2rem);
+        color: var(--marfim);
+      }
+
+      .hero-copy {
+        max-width: 650px;
+        margin-top: var(--space-2);
+        color: color-mix(in srgb, var(--marfim) 80%, var(--petroleo-700));
+        font-size: var(--step-1);
+      }
+
+      .score {
+        padding: 26px;
+        background: var(--champanhe-200);
+        color: var(--petroleo-900);
+        border-radius: var(--radius);
+      }
+
+      .score strong {
+        display: block;
+        font-family: Georgia, Times New Roman, serif;
+        font-size: 3.4rem;
+        line-height: 1;
+      }
+
+      .score span {
+        display: block;
+        margin-top: 10px;
+        color: color-mix(in srgb, var(--petroleo-900) 72%, white);
+        font-weight: 700;
+      }
+
+      .progress-bar {
+        height: 10px;
+        margin-top: 22px;
+        overflow: hidden;
+        background: rgba(10, 44, 49, 0.16);
+        border-radius: 999px;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: var(--petroleo-800);
+        transition: width 220ms ease;
+      }
+
+      main {
+        padding-bottom: var(--space-5);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: var(--space-4);
+        align-items: start;
+        padding-top: var(--space-4);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 100px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .sidebar a,
+      .resource-link {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--linha);
+        color: color-mix(in srgb, var(--petroleo-900) 76%, white);
+        font-weight: 760;
+      }
+
+      .content {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(240px, 0.42fr);
+        gap: var(--space-3);
+        align-items: end;
+        margin-bottom: var(--space-3);
+      }
+
+      .lead {
+        color: color-mix(in srgb, var(--petroleo-900) 70%, white);
+      }
+
+      .modules {
+        display: grid;
+        gap: 1px;
+        background: var(--linha);
+        border: 1px solid var(--linha);
+      }
+
+      .module {
+        display: grid;
+        grid-template-columns: 0.38fr 1fr;
+        gap: clamp(18px, 3vw, 34px);
+        padding: clamp(22px, 3.2vw, 38px);
+        background: rgba(247, 243, 232, 0.86);
+      }
+
+      .module-kicker {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .module-num {
+        color: var(--coral);
+        font-weight: 900;
+      }
+
+      .duration {
+        width: fit-content;
+        padding: 6px 10px;
+        background: var(--champanhe-500);
+        color: var(--petroleo-950);
+        font-size: 0.76rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .module-body p {
+        margin-top: 10px;
+        color: color-mix(in srgb, var(--petroleo-900) 72%, white);
+      }
+
+      .lesson-list {
+        display: grid;
+        gap: 8px;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .lesson-list li {
+        position: relative;
+        padding-left: 22px;
+        color: color-mix(in srgb, var(--petroleo-900) 78%, white);
+      }
+
+      .lesson-list li::before {
+        content: "";
+        position: absolute;
+        top: 0.72em;
+        left: 0;
+        width: 9px;
+        height: 9px;
+        background: var(--petroleo-800);
+      }
+
+      .module-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .done-btn {
+        padding: 0 16px;
+      }
+
+      .done-btn.done {
+        background: var(--champanhe-500);
+        color: var(--petroleo-950);
+      }
+
+      .prompt-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .prompt-card,
+      .playbook,
+      .rules {
+        padding: clamp(20px, 2.5vw, 28px);
+        background: var(--papel);
+        border: 1px solid var(--linha);
+        border-radius: var(--radius);
+      }
+
+      .prompt-card p {
+        margin-top: 10px;
+        color: color-mix(in srgb, var(--petroleo-900) 70%, white);
+      }
+
+      .prompt-text {
+        margin-top: 18px;
+        padding: 16px;
+        background: var(--petroleo-900);
+        color: var(--champanhe-200);
+        border-radius: 4px;
+        font-size: var(--step--1);
+      }
+
+      .copy-btn {
+        margin-top: 14px;
+        padding: 0 16px;
+        background: var(--champanhe-500);
+        color: var(--petroleo-950);
+      }
+
+      .playbook-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .playbook h3,
+      .rules h3 {
+        margin-bottom: 14px;
+      }
+
+      .playbook ol,
+      .rules ul {
+        margin: 0;
+        padding-left: 20px;
+        color: color-mix(in srgb, var(--petroleo-900) 74%, white);
+      }
+
+      .playbook li,
+      .rules li {
+        margin: 9px 0;
+      }
+
+      footer {
+        padding: 28px 0;
+        background: var(--petroleo-950);
+        color: color-mix(in srgb, var(--marfim) 74%, var(--petroleo-700));
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: var(--step--1);
+      }
+
+      @media (max-width: 940px) {
+        .hero-grid,
+        .layout,
+        .section-head,
+        .module,
+        .prompt-grid,
+        .playbook-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: relative;
+          top: auto;
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 620px) {
+        .wrap {
+          width: min(100% - 24px, 1180px);
+        }
+
+        .nav {
+          min-height: 66px;
+        }
+
+        .brand span {
+          max-width: 118px;
+          line-height: 1.05;
+        }
+
+        .nav-actions .pill:not(.dark) {
+          display: none;
+        }
+
+        .hero {
+          padding: 42px 0 34px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.25rem, 14vw, 3.55rem);
+        }
+
+        .sidebar {
+          grid-template-columns: 1fr;
+        }
+
+        .module-actions,
+        .done-btn,
+        .copy-btn {
+          width: 100%;
+        }
+
+        .footer-inner {
+          display: grid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gate" id="gate">
+      <div class="gate-card">
+        <span class="eyebrow">Acesso do cliente</span>
+        <h1>Painel de IA para time comercial</h1>
+        <p>Entre com o codigo compartilhado pela consultoria para acessar os tutoriais e materiais de trabalho.</p>
+        <form class="gate-form" id="gateForm">
+          <label for="accessCode">Codigo de acesso</label>
+          <input id="accessCode" name="accessCode" autocomplete="off" placeholder="Digite o codigo" required />
+          <button type="submit">Entrar no painel</button>
+          <div class="error" id="gateError" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <nav class="nav wrap" aria-label="Navegacao do painel">
+        <a class="brand" href="index.html" aria-label="Nexo AI">
+          <span class="mark">NX</span>
+          <span>Nexo AI</span>
+        </a>
+        <div class="nav-actions">
+          <a class="pill" href="index.html">Site</a>
+          <a class="pill dark" href="#prompts">Prompts</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-grid wrap">
+          <div>
+            <span class="eyebrow">Alto da Aurora</span>
+            <h1>Central de treino comercial com IA</h1>
+            <p class="hero-copy">
+              Um painel pratico para o time aprender, aplicar e padronizar o uso de IA em prospeccao,
+              atendimento, follow-up, CRM e negociacao.
+            </p>
+          </div>
+          <aside class="score" aria-label="Progresso dos modulos">
+            <strong id="progressNumber">0%</strong>
+            <span>dos tutoriais marcados como concluidos neste navegador</span>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          </aside>
+        </div>
+      </section>
+
+      <div class="layout wrap">
+        <aside class="sidebar" aria-label="Atalhos">
+          <a href="#trilha">Trilha <span>6 aulas</span></a>
+          <a href="#prompts">Prompts <span>copiar</span></a>
+          <a href="#playbooks">Playbooks <span>rotina</span></a>
+          <a href="#regras">Regras <span>uso seguro</span></a>
+        </aside>
+
+        <div class="content">
+          <section id="trilha">
+            <div class="section-head">
+              <h2>Trilha de tutoriais para vender melhor com IA.</h2>
+              <p class="lead">
+                Cada modulo foi desenhado para uma rotina comercial real. A recomendacao e fazer uma aula por dia e
+                aplicar no CRM ou WhatsApp logo depois.
+              </p>
+            </div>
+
+            <div class="modules">
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">01</span>
+                  <span class="duration">25 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>Fundamentos: como pedir melhor para a IA</h3>
+                  <p>Transforme pedidos vagos em comandos com contexto, objetivo, publico, restricoes e formato de saida.</p>
+                  <ul class="lesson-list">
+                    <li>Estrutura de prompt comercial: contexto, tarefa, criterios e exemplo.</li>
+                    <li>Como revisar respostas sem copiar texto generico.</li>
+                    <li>Quando usar IA e quando manter decisao humana.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m1">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">02</span>
+                  <span class="duration">30 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>Prospeccao: encontrar dores e abrir conversas</h3>
+                  <p>Use IA para pesquisar contas, segmentar ICP e criar abordagens consultivas sem parecer mensagem em massa.</p>
+                  <ul class="lesson-list">
+                    <li>Pesquisa de empresa e tomador de decisao.</li>
+                    <li>Hipoteses de dor por segmento.</li>
+                    <li>Primeira mensagem para LinkedIn, e-mail e WhatsApp.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m2">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">03</span>
+                  <span class="duration">35 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>Qualificacao: perguntas melhores no diagnostico</h3>
+                  <p>Crie roteiros para descobrir prioridade, urgencia, verba, processo de decisao e riscos da oportunidade.</p>
+                  <ul class="lesson-list">
+                    <li>Roteiro SPIN/BANT adaptado ao seu produto.</li>
+                    <li>Resumo automatico da reuniao.</li>
+                    <li>Proximos passos claros para o cliente.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m3">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">04</span>
+                  <span class="duration">30 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>Follow-up: cadencia sem insistencia vazia</h3>
+                  <p>Monte sequencias com valor em cada contato, respeitando contexto e momento do comprador.</p>
+                  <ul class="lesson-list">
+                    <li>Cadencia de 7 dias para leads quentes.</li>
+                    <li>Recuperacao de leads frios.</li>
+                    <li>Mensagens curtas com motivo claro para responder.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m4">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">05</span>
+                  <span class="duration">35 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>Objecoes e negociacao</h3>
+                  <p>Prepare respostas para preco, prazo, concorrente, falta de prioridade e necessidade de aprovacao interna.</p>
+                  <ul class="lesson-list">
+                    <li>Banco de objecoes por etapa do funil.</li>
+                    <li>Como transformar objecao em criterio de decisao.</li>
+                    <li>Proposta de valor em linguagem executiva.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m5">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="module">
+                <div class="module-kicker">
+                  <span class="module-num">06</span>
+                  <span class="duration">25 min</span>
+                </div>
+                <div class="module-body">
+                  <h3>CRM: registrar melhor para vender com previsibilidade</h3>
+                  <p>Padronize resumos, proximas acoes, riscos e sinais de compra para melhorar gestao do pipeline.</p>
+                  <ul class="lesson-list">
+                    <li>Modelo de resumo pos-reuniao.</li>
+                    <li>Campos obrigatorios para previsao de fechamento.</li>
+                    <li>Rotina semanal de revisao com IA.</li>
+                  </ul>
+                  <div class="module-actions">
+                    <button class="done-btn" data-module="m6">Marcar como concluido</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section id="prompts">
+            <div class="section-head">
+              <h2>Prompts prontos para copiar.</h2>
+              <p class="lead">Troque os trechos entre colchetes pelos dados do lead, produto ou reuniao.</p>
+            </div>
+
+            <div class="prompt-grid">
+              <article class="prompt-card">
+                <h3>Pesquisa de conta</h3>
+                <p>Para entender o contexto antes da abordagem.</p>
+                <div class="prompt-text">
+                  Analise a empresa [NOME] no segmento [SEGMENTO]. Liste 5 possiveis dores comerciais, 3 gatilhos de abordagem e uma mensagem curta para iniciar conversa com [CARGO].
+                </div>
+                <button class="copy-btn" data-copy>Copiar prompt</button>
+              </article>
+
+              <article class="prompt-card">
+                <h3>Primeira mensagem</h3>
+                <p>Para LinkedIn, e-mail ou WhatsApp.</p>
+                <div class="prompt-text">
+                  Crie 3 versoes de uma primeira mensagem consultiva para [PERSONA]. Contexto: [CONTEXTO]. Objetivo: marcar uma conversa de 20 minutos. Tom: direto, humano e sem exageros.
+                </div>
+                <button class="copy-btn" data-copy>Copiar prompt</button>
+              </article>
+
+              <article class="prompt-card">
+                <h3>Resumo de reuniao</h3>
+                <p>Para transformar anotacoes em CRM.</p>
+                <div class="prompt-text">
+                  Organize estas anotacoes em: contexto do cliente, dores, urgencia, criterios de decisao, envolvidos, riscos, proximas acoes e mensagem de follow-up. Anotacoes: [COLE AQUI].
+                </div>
+                <button class="copy-btn" data-copy>Copiar prompt</button>
+              </article>
+
+              <article class="prompt-card">
+                <h3>Resposta a objecao</h3>
+                <p>Para preparar negociacao.</p>
+                <div class="prompt-text">
+                  O cliente disse: [OBJECAO]. Gere uma resposta curta, consultiva e sem pressao. Inclua uma pergunta para entender o motivo real e uma ponte para valor de negocio.
+                </div>
+                <button class="copy-btn" data-copy>Copiar prompt</button>
+              </article>
+            </div>
+          </section>
+
+          <section id="playbooks">
+            <div class="section-head">
+              <h2>Playbooks de rotina comercial.</h2>
+              <p class="lead">Processos simples para transformar aprendizado em uso semanal.</p>
+            </div>
+
+            <div class="playbook-grid">
+              <article class="playbook">
+                <h3>Rotina diaria do vendedor</h3>
+                <ol>
+                  <li>Selecionar 5 contas prioritarias.</li>
+                  <li>Pesquisar contexto com IA.</li>
+                  <li>Gerar uma hipotese de dor para cada conta.</li>
+                  <li>Enviar abordagem personalizada.</li>
+                  <li>Registrar resposta e proxima acao no CRM.</li>
+                </ol>
+              </article>
+
+              <article class="playbook">
+                <h3>Revisao semanal do gestor</h3>
+                <ol>
+                  <li>Exportar oportunidades abertas.</li>
+                  <li>Identificar negocios sem proximo passo.</li>
+                  <li>Gerar plano de recuperacao por vendedor.</li>
+                  <li>Revisar objecoes recorrentes.</li>
+                  <li>Atualizar o banco de prompts do time.</li>
+                </ol>
+              </article>
+            </div>
+          </section>
+
+          <section id="regras">
+            <div class="section-head">
+              <h2>Regras de uso seguro.</h2>
+              <p class="lead">O time pode acelerar muito, mas precisa preservar reputacao, dados e criterio comercial.</p>
+            </div>
+
+            <div class="rules">
+              <h3>Combinados obrigatorios</h3>
+              <ul>
+                <li>Nao inserir dados sensiveis de clientes em ferramentas sem aprovacao.</li>
+                <li>Nao enviar resposta da IA sem revisar tom, veracidade e promessa comercial.</li>
+                <li>Nao inventar cases, numeros, descontos ou funcionalidades.</li>
+                <li>Usar IA para preparar decisoes, nao para substituir julgamento do vendedor.</li>
+                <li>Registrar no CRM o que foi validado com o cliente, nao apenas sugestoes da IA.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <span>Nexo AI | Painel do cliente</span>
+        <span>Codigo de acesso inicial: AURORA2026</span>
+      </div>
+    </footer>
+
+    <script>
+      const ACCESS_CODE = "AURORA2026";
+      const gate = document.getElementById("gate");
+      const gateForm = document.getElementById("gateForm");
+      const gateError = document.getElementById("gateError");
+      const progressNumber = document.getElementById("progressNumber");
+      const progressFill = document.getElementById("progressFill");
+      const moduleButtons = [...document.querySelectorAll("[data-module]")];
+
+      function unlockPanel() {
+        gate.hidden = true;
+        localStorage.setItem("nexo-panel-access", "ok");
+      }
+
+      if (localStorage.getItem("nexo-panel-access") === "ok") {
+        gate.hidden = true;
+      }
+
+      gateForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const value = document.getElementById("accessCode").value.trim().toUpperCase();
+        if (value === ACCESS_CODE) {
+          unlockPanel();
+          gateError.textContent = "";
+        } else {
+          gateError.textContent = "Codigo invalido. Confira o codigo com a consultoria.";
+        }
+      });
+
+      function updateProgress() {
+        const done = moduleButtons.filter((button) => localStorage.getItem(`nexo-${button.dataset.module}`) === "done");
+        const percentage = Math.round((done.length / moduleButtons.length) * 100);
+        progressNumber.textContent = `${percentage}%`;
+        progressFill.style.width = `${percentage}%`;
+        moduleButtons.forEach((button) => {
+          const isDone = localStorage.getItem(`nexo-${button.dataset.module}`) === "done";
+          button.classList.toggle("done", isDone);
+          button.textContent = isDone ? "Concluido" : "Marcar como concluido";
+        });
+      }
+
+      moduleButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = `nexo-${button.dataset.module}`;
+          const next = localStorage.getItem(key) === "done" ? "" : "done";
+          if (next) {
+            localStorage.setItem(key, next);
+          } else {
+            localStorage.removeItem(key);
+          }
+          updateProgress();
+        });
+      });
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const text = button.parentElement.querySelector(".prompt-text").textContent.trim();
+          await navigator.clipboard.writeText(text);
+          button.textContent = "Copiado";
+          setTimeout(() => {
+            button.textContent = "Copiar prompt";
+          }, 1400);
+        });
+      });
+
+      updateProgress();
+    </script>
+  </body>
+</html>
