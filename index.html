@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nexo AI Consultoria Empresarial</title>
+    <meta
+      name="description"
+      content="Consultoria empresarial em inteligencia artificial para estrategia, automacao, governanca e crescimento operacional."
+    />
+    <style>
+      :root {
+        --petroleo-950: #071f22;
+        --petroleo-900: #0a2c31;
+        --petroleo-800: #0f3c42;
+        --petroleo-700: #15525a;
+        --champanhe-500: #f0cf7a;
+        --champanhe-400: #f7dfa3;
+        --champanhe-200: #fff2cf;
+        --marfim: #f7f3e8;
+        --tinta: #173135;
+        --neutro: #d5dccf;
+        --coral: #bf5b44;
+        --shadow: 0 24px 70px rgba(7, 31, 34, 0.18);
+        --radius: 8px;
+        --step--1: clamp(0.84rem, 0.8rem + 0.18vw, 0.95rem);
+        --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+        --step-1: clamp(1.18rem, 1.07rem + 0.54vw, 1.5rem);
+        --step-2: clamp(1.45rem, 1.22rem + 1.15vw, 2.1rem);
+        --step-3: clamp(2rem, 1.45rem + 2.72vw, 3.55rem);
+        --step-4: clamp(2.65rem, 1.76rem + 4.45vw, 5.2rem);
+        --space-1: clamp(0.75rem, 0.64rem + 0.54vw, 1.06rem);
+        --space-2: clamp(1.1rem, 0.92rem + 0.9vw, 1.62rem);
+        --space-3: clamp(1.7rem, 1.32rem + 1.9vw, 2.8rem);
+        --space-4: clamp(2.4rem, 1.8rem + 3vw, 4.1rem);
+        --space-5: clamp(4rem, 2.85rem + 5.7vw, 7.2rem);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          linear-gradient(180deg, rgba(247, 243, 232, 0.96), rgba(247, 243, 232, 0.98)),
+          radial-gradient(circle at 10% 10%, rgba(240, 207, 122, 0.3), transparent 26%),
+          var(--marfim);
+        color: var(--tinta);
+        font-family: Avenir Next, Segoe UI, Helvetica Neue, sans-serif;
+        line-height: 1.5;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.16;
+        background-image:
+          linear-gradient(rgba(10, 44, 49, 0.5) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(10, 44, 49, 0.5) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(180deg, black, transparent 86%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .wrap {
+        width: min(1160px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(10, 44, 49, 0.12);
+        background: color-mix(in srgb, var(--marfim) 88%, transparent);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 760;
+        letter-spacing: 0;
+      }
+
+      .mark {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        background: var(--petroleo-900);
+        color: var(--champanhe-500);
+        border: 1px solid rgba(240, 207, 122, 0.44);
+      }
+
+      .links {
+        display: flex;
+        align-items: center;
+        gap: clamp(14px, 2vw, 30px);
+        color: color-mix(in srgb, var(--petroleo-900) 82%, white);
+        font-size: var(--step--1);
+      }
+
+      .nav-cta,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
+      }
+
+      .nav-cta {
+        background: var(--petroleo-900);
+        color: var(--champanhe-200);
+      }
+
+      .button.primary {
+        background: var(--champanhe-500);
+        color: var(--petroleo-950);
+        box-shadow: 0 16px 40px rgba(240, 207, 122, 0.22);
+      }
+
+      .button.secondary {
+        color: var(--champanhe-200);
+        border-color: rgba(255, 242, 207, 0.42);
+      }
+
+      .nav-cta:hover,
+      .button:hover {
+        transform: translateY(-2px);
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(110deg, rgba(7, 31, 34, 0.98) 0%, rgba(10, 44, 49, 0.94) 56%, rgba(10, 44, 49, 0.4) 100%),
+          url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=82");
+        background-size: cover;
+        background-position: center;
+        color: var(--marfim);
+      }
+
+      .hero-grid {
+        min-height: clamp(600px, calc(100vh - 132px), 760px);
+        display: grid;
+        grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.72fr);
+        gap: var(--space-4);
+        align-items: center;
+        padding: var(--space-4) 0 calc(var(--space-4) + 30px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        margin-bottom: var(--space-2);
+        color: var(--champanhe-400);
+        font-size: var(--step--1);
+        font-weight: 760;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 44px;
+        height: 1px;
+        background: currentColor;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 11ch;
+        font-family: Georgia, Times New Roman, serif;
+        font-size: var(--step-4);
+        line-height: 0.98;
+        font-weight: 560;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        margin-top: var(--space-2);
+        color: color-mix(in srgb, var(--marfim) 86%, var(--petroleo-700));
+        font-size: var(--step-1);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: var(--space-3);
+      }
+
+      .signal-panel {
+        align-self: end;
+        background: rgba(247, 243, 232, 0.94);
+        color: var(--petroleo-900);
+        border: 1px solid rgba(255, 242, 207, 0.7);
+        box-shadow: var(--shadow);
+        padding: clamp(22px, 3vw, 34px);
+        border-radius: var(--radius);
+      }
+
+      .panel-title {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: start;
+        border-bottom: 1px solid rgba(10, 44, 49, 0.16);
+        padding-bottom: 18px;
+      }
+
+      .panel-title strong {
+        display: block;
+        font-family: Georgia, Times New Roman, serif;
+        font-size: var(--step-2);
+        line-height: 1.05;
+      }
+
+      .status {
+        flex: 0 0 auto;
+        color: var(--petroleo-950);
+        background: var(--champanhe-500);
+        font-size: 0.72rem;
+        font-weight: 800;
+        padding: 6px 9px;
+        text-transform: uppercase;
+      }
+
+      .signal-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .signal {
+        display: grid;
+        grid-template-columns: 74px 1fr;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .signal b {
+        font-family: Georgia, Times New Roman, serif;
+        font-size: 2rem;
+        line-height: 1;
+        color: var(--petroleo-800);
+      }
+
+      .signal span {
+        color: color-mix(in srgb, var(--petroleo-900) 76%, white);
+        font-size: var(--step--1);
+      }
+
+      section {
+        padding: var(--space-5) 0;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(240px, 0.55fr);
+        gap: var(--space-4);
+        align-items: end;
+        margin-bottom: var(--space-4);
+      }
+
+      h2 {
+        font-family: Georgia, Times New Roman, serif;
+        font-size: var(--step-3);
+        line-height: 1.04;
+        font-weight: 560;
+        color: var(--petroleo-900);
+      }
+
+      .lead {
+        color: color-mix(in srgb, var(--petroleo-900) 74%, white);
+        font-size: var(--step-0);
+      }
+
+      .services {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid rgba(10, 44, 49, 0.16);
+        background: rgba(247, 243, 232, 0.6);
+      }
+
+      .service {
+        min-height: 310px;
+        padding: clamp(22px, 2.8vw, 34px);
+        border-right: 1px solid rgba(10, 44, 49, 0.16);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .service:last-child {
+        border-right: 0;
+      }
+
+      .service .num {
+        color: var(--coral);
+        font-weight: 800;
+      }
+
+      h3 {
+        margin-top: 28px;
+        color: var(--petroleo-900);
+        font-size: var(--step-1);
+        line-height: 1.16;
+      }
+
+      .service p {
+        margin-top: 16px;
+        color: color-mix(in srgb, var(--petroleo-900) 72%, white);
+        font-size: var(--step--1);
+      }
+
+      .method-band {
+        background: var(--petroleo-900);
+        color: var(--marfim);
+      }
+
+      .method-band h2 {
+        color: var(--marfim);
+      }
+
+      .method-band .lead {
+        color: color-mix(in srgb, var(--marfim) 78%, var(--petroleo-700));
+      }
+
+      .method {
+        display: grid;
+        grid-template-columns: 0.78fr 1fr;
+        gap: var(--space-4);
+        align-items: start;
+      }
+
+      .method-visual {
+        position: sticky;
+        top: 112px;
+        min-height: 460px;
+        padding: 26px;
+        border: 1px solid rgba(255, 242, 207, 0.18);
+        background:
+          linear-gradient(135deg, rgba(240, 207, 122, 0.18), transparent 44%),
+          rgba(255, 242, 207, 0.05);
+        border-radius: var(--radius);
+      }
+
+      .matrix {
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+        gap: 8px;
+      }
+
+      .cell {
+        min-height: 42px;
+        background: rgba(255, 242, 207, 0.08);
+        border: 1px solid rgba(255, 242, 207, 0.12);
+      }
+
+      .cell.hot {
+        background: var(--champanhe-500);
+        border-color: var(--champanhe-400);
+      }
+
+      .cell.mid {
+        background: rgba(240, 207, 122, 0.38);
+      }
+
+      .steps {
+        display: grid;
+        gap: 0;
+        border-top: 1px solid rgba(255, 242, 207, 0.18);
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        gap: 24px;
+        padding: 30px 0;
+        border-bottom: 1px solid rgba(255, 242, 207, 0.18);
+      }
+
+      .step b {
+        color: var(--champanhe-500);
+        font-size: var(--step-1);
+      }
+
+      .step h3 {
+        margin: 0 0 10px;
+        color: var(--marfim);
+      }
+
+      .step p {
+        color: color-mix(in srgb, var(--marfim) 74%, var(--petroleo-700));
+      }
+
+      .use-cases {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: var(--space-4);
+        align-items: stretch;
+      }
+
+      .case-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .case {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 16px;
+        padding: 18px 0;
+        border-bottom: 1px solid rgba(10, 44, 49, 0.14);
+      }
+
+      .case svg {
+        width: 28px;
+        height: 28px;
+        color: var(--petroleo-800);
+      }
+
+      .case strong {
+        display: block;
+        color: var(--petroleo-900);
+        font-size: var(--step-0);
+      }
+
+      .case span {
+        display: block;
+        margin-top: 5px;
+        color: color-mix(in srgb, var(--petroleo-900) 70%, white);
+        font-size: var(--step--1);
+      }
+
+      .quote-panel {
+        padding: clamp(24px, 3vw, 38px);
+        background: var(--champanhe-200);
+        border: 1px solid rgba(10, 44, 49, 0.14);
+        border-radius: var(--radius);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .quote-panel p {
+        font-family: Georgia, Times New Roman, serif;
+        color: var(--petroleo-900);
+        font-size: var(--step-2);
+        line-height: 1.18;
+      }
+
+      .quote-panel span {
+        margin-top: 32px;
+        color: color-mix(in srgb, var(--petroleo-900) 70%, white);
+        font-weight: 700;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(10, 44, 49, 0.16);
+        border: 1px solid rgba(10, 44, 49, 0.16);
+      }
+
+      .metric {
+        background: var(--marfim);
+        padding: clamp(22px, 3vw, 34px);
+      }
+
+      .metric strong {
+        display: block;
+        font-family: Georgia, Times New Roman, serif;
+        color: var(--petroleo-900);
+        font-size: var(--step-3);
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 12px;
+        color: color-mix(in srgb, var(--petroleo-900) 72%, white);
+      }
+
+      .cta {
+        padding: var(--space-5) 0;
+        background:
+          linear-gradient(90deg, rgba(7, 31, 34, 0.96), rgba(10, 44, 49, 0.84)),
+          url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=82");
+        background-size: cover;
+        background-position: center;
+        color: var(--marfim);
+      }
+
+      .cta-inner {
+        display: grid;
+        grid-template-columns: 1fr 0.58fr;
+        gap: var(--space-4);
+        align-items: center;
+      }
+
+      .cta h2 {
+        color: var(--marfim);
+      }
+
+      .contact-box {
+        padding: 26px;
+        background: rgba(247, 243, 232, 0.96);
+        color: var(--petroleo-900);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .contact-box label {
+        display: block;
+        margin: 0 0 8px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: color-mix(in srgb, var(--petroleo-900) 76%, white);
+        text-transform: uppercase;
+      }
+
+      .contact-box input,
+      .contact-box select {
+        width: 100%;
+        min-height: 46px;
+        margin-bottom: 14px;
+        padding: 0 12px;
+        border: 1px solid rgba(10, 44, 49, 0.2);
+        background: #fbf8ef;
+        color: var(--petroleo-900);
+        font: inherit;
+        border-radius: 4px;
+      }
+
+      .contact-box input:focus,
+      .contact-box select:focus {
+        outline: 3px solid rgba(240, 207, 122, 0.56);
+        border-color: var(--petroleo-800);
+      }
+
+      .contact-box button {
+        width: 100%;
+        min-height: 48px;
+        margin-top: 4px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--petroleo-900);
+        color: var(--champanhe-200);
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      footer {
+        padding: 28px 0;
+        background: var(--petroleo-950);
+        color: color-mix(in srgb, var(--marfim) 74%, var(--petroleo-700));
+      }
+
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        font-size: var(--step--1);
+      }
+
+      @media (max-width: 940px) {
+        .links a:not(.nav-cta) {
+          display: none;
+        }
+
+        .hero-grid,
+        .section-head,
+        .method,
+        .use-cases,
+        .cta-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-grid {
+          min-height: auto;
+          padding-top: var(--space-5);
+        }
+
+        .signal-panel,
+        .method-visual {
+          position: relative;
+          top: auto;
+        }
+
+        .services {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .service:nth-child(2) {
+          border-right: 0;
+        }
+
+        .service:nth-child(-n + 2) {
+          border-bottom: 1px solid rgba(10, 44, 49, 0.16);
+        }
+      }
+
+      @media (max-width: 620px) {
+        .wrap {
+          width: min(100% - 24px, 1160px);
+        }
+
+        .nav {
+          min-height: 66px;
+        }
+
+        .brand span {
+          max-width: 108px;
+          line-height: 1.05;
+        }
+
+        .nav-cta {
+          min-height: 38px;
+          padding: 0 12px;
+        }
+
+        .hero {
+          background-position: 58% center;
+        }
+
+        .hero-grid {
+          padding: 32px 0 28px;
+          gap: 18px;
+        }
+
+        h1 {
+          max-width: 9ch;
+          font-size: clamp(2.15rem, 11.8vw, 3.05rem);
+        }
+
+        .hero-copy {
+          font-size: 1rem;
+        }
+
+        .hero-actions,
+        .button {
+          width: 100%;
+        }
+
+        .signal-panel {
+          padding: 18px;
+        }
+
+        .panel-title {
+          padding-bottom: 14px;
+        }
+
+        .panel-title strong {
+          font-size: 1.45rem;
+        }
+
+        .signal-list {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+          margin-top: 16px;
+        }
+
+        .signal {
+          display: block;
+          min-width: 0;
+        }
+
+        .signal b {
+          display: block;
+          font-size: 1.6rem;
+        }
+
+        .signal span {
+          display: none;
+        }
+
+        .services,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .service,
+        .service:nth-child(2) {
+          border-right: 0;
+          border-bottom: 1px solid rgba(10, 44, 49, 0.16);
+        }
+
+        .service:last-child {
+          border-bottom: 0;
+        }
+
+        .method-visual {
+          min-height: 320px;
+          padding: 16px;
+        }
+
+        .cell {
+          min-height: 28px;
+        }
+
+        .step {
+          grid-template-columns: 54px 1fr;
+          gap: 14px;
+        }
+
+        .footer-inner {
+          display: grid;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="nav wrap" aria-label="Navegacao principal">
+        <a class="brand" href="#inicio" aria-label="Nexo AI">
+          <span class="mark">NX</span>
+          <span>Nexo AI</span>
+        </a>
+        <div class="links">
+          <a href="#servicos">Servicos</a>
+          <a href="#metodo">Metodo</a>
+          <a href="#aplicacoes">Aplicacoes</a>
+          <a class="nav-cta" href="#diagnostico">Diagnostico</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero" aria-label="Consultoria empresarial em inteligencia artificial">
+        <div class="hero-grid wrap">
+          <div>
+            <span class="eyebrow">Consultoria empresarial em IA</span>
+            <h1>IA aplicada ao resultado operacional</h1>
+            <p class="hero-copy">
+              Desenhamos, priorizamos e implantamos iniciativas de inteligencia artificial que reduzem custos,
+              aceleram decisoes e criam novas fontes de receita com governanca executiva.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#diagnostico">Agendar diagnostico</a>
+              <a class="button secondary" href="#servicos">Ver frentes de trabalho</a>
+            </div>
+          </div>
+
+          <aside class="signal-panel" aria-label="Resumo de impacto">
+            <div class="panel-title">
+              <strong>Mapa de valor em 30 dias</strong>
+              <span class="status">Ativo</span>
+            </div>
+            <div class="signal-list">
+              <div class="signal">
+                <b>18</b>
+                <span>oportunidades ranqueadas por retorno, risco e prontidao de dados</span>
+              </div>
+              <div class="signal">
+                <b>4x</b>
+                <span>priorizacao entre automacao, copilotos, analytics e novos produtos</span>
+              </div>
+              <div class="signal">
+                <b>90</b>
+                <span>dias para colocar o primeiro caso de alto valor em producao assistida</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="servicos">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Da estrategia ao uso diario, sem teatro tecnologico.</h2>
+            <p class="lead">
+              Atuamos onde a IA precisa encontrar processo, dado, gente e governanca. O foco e sair do piloto
+              isolado e chegar em capacidade empresarial repetivel.
+            </p>
+          </div>
+
+          <div class="services">
+            <article class="service">
+              <div>
+                <span class="num">01</span>
+                <h3>Estrategia e roadmap de IA</h3>
+                <p>Carteira de iniciativas conectada a metas de margem, crescimento, produtividade e experiencia do cliente.</p>
+              </div>
+            </article>
+            <article class="service">
+              <div>
+                <span class="num">02</span>
+                <h3>Automacao inteligente</h3>
+                <p>Redesenho de processos com agentes, RPA, classificacao, extracao de dados e fluxos com humano no controle.</p>
+              </div>
+            </article>
+            <article class="service">
+              <div>
+                <span class="num">03</span>
+                <h3>Copilotos corporativos</h3>
+                <p>Assistentes seguros para vendas, operacoes, juridico, financeiro e atendimento, integrados a bases internas.</p>
+              </div>
+            </article>
+            <article class="service">
+              <div>
+                <span class="num">04</span>
+                <h3>Governanca e adocao</h3>
+                <p>Politicas, rituais, indicadores, gestao de risco e formacao de times para escala responsavel.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="method-band" id="metodo">
+        <div class="wrap method">
+          <div class="method-visual" aria-hidden="true">
+            <div class="matrix">
+              <span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell hot"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell hot"></span><span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span>
+              <span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell hot"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell hot"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell hot"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span>
+              <span class="cell hot"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell hot"></span><span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span>
+              <span class="cell"></span><span class="cell"></span><span class="cell mid"></span><span class="cell"></span><span class="cell"></span><span class="cell hot"></span><span class="cell"></span><span class="cell"></span>
+            </div>
+          </div>
+          <div>
+            <div class="section-head" style="display:block; margin-bottom: 28px;">
+              <span class="eyebrow">Metodo Nexo</span>
+              <h2>Um sistema para transformar IA em capacidade de negocio.</h2>
+              <p class="lead" style="margin-top: 18px;">
+                Cada etapa gera artefatos executaveis: mapa de valor, desenho de solucao, plano de dados,
+                indicadores e rotina de melhoria.
+              </p>
+            </div>
+            <div class="steps">
+              <article class="step">
+                <b>01</b>
+                <div>
+                  <h3>Diagnosticar</h3>
+                  <p>Mapeamos dores, gargalos, dados disponiveis e alavancas economicas por area.</p>
+                </div>
+              </article>
+              <article class="step">
+                <b>02</b>
+                <div>
+                  <h3>Priorizar</h3>
+                  <p>Comparamos impacto, risco, dependencia tecnica e patrocinio para selecionar o melhor primeiro ciclo.</p>
+                </div>
+              </article>
+              <article class="step">
+                <b>03</b>
+                <div>
+                  <h3>Implantar</h3>
+                  <p>Construimos a solucao, integramos ao processo e treinamos usuarios com metricas de uso real.</p>
+                </div>
+              </article>
+              <article class="step">
+                <b>04</b>
+                <div>
+                  <h3>Escalar</h3>
+                  <p>Padronizamos arquitetura, governanca, seguranca e modelo operacional para multiplicar os casos.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="aplicacoes">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Aplicacoes que cabem no P&L.</h2>
+            <p class="lead">
+              A IA entra onde existe volume, variabilidade, decisao recorrente e conhecimento disperso.
+            </p>
+          </div>
+
+          <div class="use-cases">
+            <div class="case-list">
+              <article class="case">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 19V5m0 14h16M8 16V9m4 7V6m4 10v-4"/></svg>
+                <div><strong>Comercial e receita</strong><span>Lead scoring, propostas assistidas, inteligencia competitiva e roteiros de venda.</span></div>
+              </article>
+              <article class="case">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 8h12M6 12h12M6 16h8M4 4h16v16H4z"/></svg>
+                <div><strong>Backoffice e financeiro</strong><span>Conferencia documental, conciliacao, classificacao de demandas e fechamento mais rapido.</span></div>
+              </article>
+              <article class="case">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3v18M5 7h14M7 21h10M8 7l-4 8h8L8 7Zm8 0-4 8h8l-4-8Z"/></svg>
+                <div><strong>Risco, juridico e compliance</strong><span>Analise de contratos, politicas de uso, trilhas de auditoria e controles para IA generativa.</span></div>
+              </article>
+              <article class="case">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12a8 8 0 1 1 16 0v5a3 3 0 0 1-3 3h-2m-7-8v3m8-3v3M9 20h6"/></svg>
+                <div><strong>Atendimento e operacoes</strong><span>Triagem, resposta assistida, base de conhecimento e monitoramento de qualidade.</span></div>
+              </article>
+            </div>
+
+            <aside class="quote-panel">
+              <p>"O ganho nao vem de ter um chatbot. Vem de redesenhar decisoes e rotinas com IA no ponto certo."</p>
+              <span>Nexo AI | Consultoria empresarial</span>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap metrics" aria-label="Indicadores de trabalho">
+          <div class="metric"><strong>30d</strong><span>para mapa executivo de oportunidades e retorno estimado</span></div>
+          <div class="metric"><strong>90d</strong><span>para primeiro caso em producao assistida com usuarios reais</span></div>
+          <div class="metric"><strong>12m</strong><span>para governanca, portifolio e modelo operacional de escala</span></div>
+        </div>
+      </section>
+
+      <section class="cta" id="diagnostico">
+        <div class="wrap cta-inner">
+          <div>
+            <span class="eyebrow">Proximo passo</span>
+            <h2>Comece com um diagnostico objetivo de maturidade e oportunidades.</h2>
+            <p class="hero-copy">
+              Em uma reuniao inicial, entendemos contexto, metas e restricoes para indicar as frentes com maior potencial.
+            </p>
+          </div>
+
+          <form class="contact-box" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Solicitacao registrada';">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" autocomplete="name" placeholder="Seu nome" required />
+            <label for="email">E-mail corporativo</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@empresa.com" required />
+            <label for="area">Principal desafio</label>
+            <select id="area" name="area">
+              <option>Estrategia e roadmap</option>
+              <option>Automacao de processos</option>
+              <option>Copilotos internos</option>
+              <option>Governanca e risco</option>
+            </select>
+            <button type="submit">Solicitar diagnostico</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <span>Nexo AI Consultoria Empresarial</span>
+        <span>Inteligencia artificial com estrategia, governanca e execucao.</span>
+      </div>
+    </footer>
+  </body>
+</html>
