@@ -224,6 +224,51 @@
         gap: 10px;
       }
 
+      .token-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .token-note {
+        display: block;
+        margin-top: 12px;
+        color: color-mix(in srgb, var(--petroleo-900) 68%, white);
+        font-size: var(--step--1);
+        font-weight: 700;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: calc(var(--space-4) * -0.55);
+        margin-bottom: var(--space-4);
+        background: rgba(10, 44, 49, 0.18);
+        border: 1px solid rgba(10, 44, 49, 0.18);
+      }
+
+      .metric {
+        padding: 22px;
+        background: var(--papel);
+      }
+
+      .metric strong {
+        display: block;
+        font-family: Georgia, Times New Roman, serif;
+        color: var(--petroleo-900);
+        font-size: var(--step-2);
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 8px;
+        color: color-mix(in srgb, var(--petroleo-900) 68%, white);
+        font-size: var(--step--1);
+        font-weight: 760;
+      }
+
       .content {
         display: grid;
         grid-template-columns: minmax(320px, 0.42fr) minmax(0, 1fr);
@@ -300,6 +345,18 @@
         margin-bottom: 18px;
       }
 
+      .filters {
+        display: grid;
+        grid-template-columns: minmax(220px, 1fr) 190px auto;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .filters input,
+      .filters select {
+        min-height: 42px;
+      }
+
       .client-list {
         display: grid;
         gap: 12px;
@@ -307,7 +364,7 @@
 
       .client-card {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 0.36fr);
         gap: 16px;
         padding: 18px;
         background: rgba(247, 243, 232, 0.92);
@@ -341,6 +398,31 @@
         text-transform: uppercase;
       }
 
+      .client-controls {
+        display: grid;
+        gap: 10px;
+      }
+
+      .client-controls label {
+        margin-bottom: 5px;
+        font-size: 0.72rem;
+      }
+
+      .client-controls textarea {
+        min-height: 76px;
+      }
+
+      .client-actions {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      button.danger {
+        color: var(--coral);
+        border-color: rgba(191, 91, 68, 0.3);
+      }
+
       .empty {
         padding: 30px;
         background: rgba(247, 243, 232, 0.86);
@@ -352,7 +434,10 @@
       @media (max-width: 940px) {
         .hero-grid,
         .content,
-        .grid-2 {
+        .grid-2,
+        .metrics,
+        .filters,
+        .client-card {
           grid-template-columns: 1fr;
         }
       }
@@ -371,7 +456,8 @@
         }
 
         .token-row,
-        .client-card {
+        .token-actions,
+        .client-actions {
           grid-template-columns: 1fr;
         }
 
@@ -410,8 +496,20 @@
               <input id="adminToken" type="password" placeholder="Cole o ADMIN_TOKEN" autocomplete="off" />
               <button class="primary" id="saveToken" type="button">Salvar</button>
             </div>
+            <div class="token-actions">
+              <button id="toggleToken" type="button">Mostrar token</button>
+              <button id="clearToken" type="button">Sair</button>
+            </div>
+            <span class="token-note" id="tokenNote">O token fica salvo apenas neste navegador.</span>
           </div>
         </div>
+      </section>
+
+      <section class="metrics wrap" aria-label="Resumo do pipeline">
+        <div class="metric"><strong id="metricTotal">0</strong><span>Total no banco</span></div>
+        <div class="metric"><strong id="metricOpen">0</strong><span>Leads e diagnosticos</span></div>
+        <div class="metric"><strong id="metricProposal">0</strong><span>Em proposta</span></div>
+        <div class="metric"><strong id="metricClient">0</strong><span>Clientes ativos</span></div>
       </section>
 
       <div class="content wrap">
@@ -475,6 +573,18 @@
             </div>
             <button id="refreshBtn" type="button">Atualizar</button>
           </div>
+          <div class="filters">
+            <input id="searchInput" type="search" placeholder="Buscar por nome, empresa, e-mail ou segmento" />
+            <select id="statusFilter" aria-label="Filtrar por status">
+              <option value="">Todos os status</option>
+              <option value="lead">Lead</option>
+              <option value="diagnostico">Diagnostico</option>
+              <option value="proposta">Proposta</option>
+              <option value="cliente">Cliente</option>
+              <option value="pausado">Pausado</option>
+            </select>
+            <button id="clearFilters" type="button">Limpar</button>
+          </div>
           <div class="client-list" id="clientList">
             <div class="empty">Configure `DATABASE_URL` e `ADMIN_TOKEN` na Vercel para ativar o banco.</div>
           </div>
@@ -485,11 +595,23 @@
     <script>
       const tokenInput = document.getElementById("adminToken");
       const saveToken = document.getElementById("saveToken");
+      const toggleToken = document.getElementById("toggleToken");
+      const clearToken = document.getElementById("clearToken");
+      const tokenNote = document.getElementById("tokenNote");
       const form = document.getElementById("clientForm");
       const formMessage = document.getElementById("formMessage");
       const clientList = document.getElementById("clientList");
       const countLabel = document.getElementById("countLabel");
       const refreshBtn = document.getElementById("refreshBtn");
+      const searchInput = document.getElementById("searchInput");
+      const statusFilter = document.getElementById("statusFilter");
+      const clearFilters = document.getElementById("clearFilters");
+      const metricTotal = document.getElementById("metricTotal");
+      const metricOpen = document.getElementById("metricOpen");
+      const metricProposal = document.getElementById("metricProposal");
+      const metricClient = document.getElementById("metricClient");
+
+      let allClientes = [];
 
       tokenInput.value = localStorage.getItem("nexo-admin-token") || "";
 
@@ -500,6 +622,31 @@
       function setMessage(text, ok = false) {
         formMessage.textContent = text;
         formMessage.style.color = ok ? "#15525a" : "#bf5b44";
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function statusLabel(value) {
+        return {
+          lead: "Lead",
+          diagnostico: "Diagnostico",
+          proposta: "Proposta",
+          cliente: "Cliente",
+          pausado: "Pausado",
+        }[value] || value || "Lead";
+      }
+
+      function statusOptions(selected) {
+        return ["lead", "diagnostico", "proposta", "cliente", "pausado"]
+          .map((status) => `<option value="${status}" ${status === selected ? "selected" : ""}>${statusLabel(status)}</option>`)
+          .join("");
       }
 
       async function api(path, options = {}) {
@@ -521,24 +668,61 @@
       }
 
       function renderClientes(clientes) {
-        countLabel.textContent = `${clientes.length} cliente${clientes.length === 1 ? "" : "s"} cadastrado${clientes.length === 1 ? "" : "s"}.`;
+        const term = searchInput.value.trim().toLowerCase();
+        const filter = statusFilter.value;
+        const filtered = clientes.filter((cliente) => {
+          const haystack = [cliente.nome, cliente.empresa, cliente.email, cliente.telefone, cliente.segmento, cliente.responsavel]
+            .join(" ")
+            .toLowerCase();
+          return (!term || haystack.includes(term)) && (!filter || cliente.status === filter);
+        });
+
+        metricTotal.textContent = clientes.length;
+        metricOpen.textContent = clientes.filter((cliente) => ["lead", "diagnostico"].includes(cliente.status)).length;
+        metricProposal.textContent = clientes.filter((cliente) => cliente.status === "proposta").length;
+        metricClient.textContent = clientes.filter((cliente) => cliente.status === "cliente").length;
+        countLabel.textContent = `${filtered.length} de ${clientes.length} cliente${clientes.length === 1 ? "" : "s"} exibido${filtered.length === 1 ? "" : "s"}.`;
 
         if (!clientes.length) {
           clientList.innerHTML = '<div class="empty">Nenhum cliente cadastrado ainda.</div>';
           return;
         }
 
-        clientList.innerHTML = clientes
+        if (!filtered.length) {
+          clientList.innerHTML = '<div class="empty">Nenhum cliente encontrado com os filtros atuais.</div>';
+          return;
+        }
+
+        clientList.innerHTML = filtered
           .map(
             (cliente) => `
-              <article class="client-card">
+              <article class="client-card" data-id="${escapeHtml(cliente.id)}">
                 <div>
-                  <strong>${cliente.nome}</strong>
-                  <span>${cliente.empresa} | ${cliente.email}</span>
-                  <span>${cliente.telefone || "Sem telefone"} | ${cliente.segmento || "Sem segmento"}</span>
-                  <span>${cliente.observacoes || ""}</span>
+                  <strong>${escapeHtml(cliente.nome)}</strong>
+                  <span>${escapeHtml(cliente.empresa)} | ${escapeHtml(cliente.email)}</span>
+                  <span>${escapeHtml(cliente.telefone || "Sem telefone")} | ${escapeHtml(cliente.segmento || "Sem segmento")}</span>
+                  <span>Responsavel: ${escapeHtml(cliente.responsavel || "Nao definido")}</span>
+                  <span>${escapeHtml(cliente.observacoes || "")}</span>
                 </div>
-                <span class="tag">${cliente.status}</span>
+                <div class="client-controls">
+                  <span class="tag">${escapeHtml(statusLabel(cliente.status))}</span>
+                  <div>
+                    <label>Status</label>
+                    <select data-field="status">${statusOptions(cliente.status)}</select>
+                  </div>
+                  <div>
+                    <label>Responsavel</label>
+                    <input data-field="responsavel" value="${escapeHtml(cliente.responsavel || "")}" />
+                  </div>
+                  <div>
+                    <label>Observacoes</label>
+                    <textarea data-field="observacoes">${escapeHtml(cliente.observacoes || "")}</textarea>
+                  </div>
+                  <div class="client-actions">
+                    <button class="primary" data-action="save" type="button">Salvar</button>
+                    <button class="danger" data-action="delete" type="button">Excluir</button>
+                  </div>
+                </div>
               </article>
             `,
           )
@@ -548,7 +732,8 @@
       async function loadClientes() {
         try {
           const data = await api("/api/clientes");
-          renderClientes(data.clientes || []);
+          allClientes = data.clientes || [];
+          renderClientes(allClientes);
         } catch (error) {
           countLabel.textContent = "Nao foi possivel carregar os clientes.";
           clientList.innerHTML = `<div class="empty">${error.message}</div>`;
@@ -557,11 +742,70 @@
 
       saveToken.addEventListener("click", () => {
         localStorage.setItem("nexo-admin-token", tokenInput.value.trim());
+        tokenNote.textContent = "Token salvo. Carregando banco de clientes...";
         setMessage("Token salvo neste navegador.", true);
         loadClientes();
       });
 
+      toggleToken.addEventListener("click", () => {
+        const visible = tokenInput.type === "text";
+        tokenInput.type = visible ? "password" : "text";
+        toggleToken.textContent = visible ? "Mostrar token" : "Ocultar token";
+      });
+
+      clearToken.addEventListener("click", () => {
+        localStorage.removeItem("nexo-admin-token");
+        tokenInput.value = "";
+        allClientes = [];
+        renderClientes([]);
+        tokenNote.textContent = "Token removido deste navegador.";
+      });
+
       refreshBtn.addEventListener("click", loadClientes);
+      searchInput.addEventListener("input", () => renderClientes(allClientes));
+      statusFilter.addEventListener("change", () => renderClientes(allClientes));
+      clearFilters.addEventListener("click", () => {
+        searchInput.value = "";
+        statusFilter.value = "";
+        renderClientes(allClientes);
+      });
+
+      clientList.addEventListener("click", async (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const card = button.closest("[data-id]");
+        const id = card.dataset.id;
+
+        try {
+          if (button.dataset.action === "delete") {
+            const confirmed = confirm("Excluir este cliente do banco?");
+            if (!confirmed) return;
+
+            await api("/api/clientes", {
+              method: "DELETE",
+              body: JSON.stringify({ id }),
+            });
+            await loadClientes();
+            setMessage("Cliente excluido.", true);
+            return;
+          }
+
+          const body = { id };
+          card.querySelectorAll("[data-field]").forEach((field) => {
+            body[field.dataset.field] = field.value.trim();
+          });
+
+          await api("/api/clientes", {
+            method: "PATCH",
+            body: JSON.stringify(body),
+          });
+          await loadClientes();
+          setMessage("Cliente atualizado.", true);
+        } catch (error) {
+          setMessage(error.message);
+        }
+      });
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
