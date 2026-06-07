@@ -1,0 +1,12 @@
+{
+  "name": "ia-empresarial",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "vercel-build": "echo 'Static site with Vercel serverless API'"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}
